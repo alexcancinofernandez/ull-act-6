@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Eliminar Suscripción{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="alert alert-danger">
+        <h2><i class="fas fa-exclamation-triangle"></i> ¿Estás seguro de que quieres eliminar esta suscripción?</h2>
+        <p class="mb-0">Esta acción no se puede deshacer.</p>
+    </div>
+    
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            <h5 class="card-title mb-0">Detalles de la Suscripción</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>ID:</strong> {{ suscripcion.id }}</p>
+                    <p><strong>Usuario:</strong> {{ suscripcion.usuario.nombre_usuario }}</p>
+                    <p><strong>Canal:</strong> {{ suscripcion.canal.nombre }}</p>
+                    <p><strong>Nivel de Suscripción:</strong> 
+                        <span class="badge 
+                            {% if suscripcion.nivel_suscripcion == 'VIP' %}bg-danger
+                            {% elif suscripcion.nivel_suscripcion == 'Premium' %}bg-warning
+                            {% else %}bg-secondary{% endif %}">
+                            {{ suscripcion.nivel_suscripcion }}
+                        </span>
+                    </p>
+                    <p><strong>Fecha de Suscripción:</strong> {{ suscripcion.fecha_suscripcion|date:"d/m/Y H:i" }}</p>
+                </div>
+                <div class="col-md-6">
+                    <p><strong>Notificaciones:</strong> 
+                        {% if suscripcion.notificaciones_activadas %}
+                            <span class="badge bg-success">Activadas</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Desactivadas</span>
+                        {% endif %}
+                    </p>
+                    <p><strong>Comentarios Habilitados:</strong> 
+                        {% if suscripcion.comentarios_habilitados %}
+                            <span class="badge bg-success">Sí</span>
+                        {% else %}
+                            <span class="badge bg-secondary">No</span>
+                        {% endif %}
+                    </p>
+                    <p><strong>Puntos de Fidelidad:</strong> 
+                        <span class="badge bg-info">{{ suscripcion.puntos_fidelidad }}</span>
+                    </p>
+                    <p><strong>Estado:</strong> 
+                        {% if suscripcion.activo %}
+                            <span class="badge bg-success">Activa</span>
+                        {% else %}
+                            <span class="badge bg-danger">Inactiva</span>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form method="POST" class="mt-4">
+        {% csrf_token %}
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="submit" class="btn btn-danger btn-lg">
+                <i class="fas fa-trash"></i> Sí, Eliminar Suscripción
+            </button>
+            <a href="{% url 'ver_suscripciones' %}" class="btn btn-secondary btn-lg">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

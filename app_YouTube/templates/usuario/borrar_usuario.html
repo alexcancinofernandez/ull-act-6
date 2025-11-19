@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Eliminar Usuario{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="alert alert-danger">
+        <h2><i class="fas fa-exclamation-triangle"></i> ¿Estás seguro de que quieres eliminar este usuario?</h2>
+        <p class="mb-0">Esta acción no se puede deshacer.</p>
+    </div>
+    
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            <h5 class="card-title mb-0">Detalles del Usuario</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-2 text-center">
+                    {% if usuario.foto_perfil %}
+                        <img src="{{ usuario.foto_perfil.url }}" alt="Foto de perfil" class="img-fluid rounded-circle mb-3" style="max-width: 100px;">
+                    {% else %}
+                        <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 100px; height: 100px;">
+                            <i class="fas fa-user text-white fa-2x"></i>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>ID:</strong> {{ usuario.id }}</p>
+                            <p><strong>Nombre de Usuario:</strong> {{ usuario.nombre_usuario }}</p>
+                            <p><strong>Correo Electrónico:</strong> {{ usuario.correo }}</p>
+                            <p><strong>País:</strong> {{ usuario.pais|default:"No especificado" }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Verificado:</strong> 
+                                {% if usuario.es_verificado %}
+                                    <span class="badge bg-success">Sí</span>
+                                {% else %}
+                                    <span class="badge bg-secondary">No</span>
+                                {% endif %}
+                            </p>
+                            <p><strong>Fecha de Registro:</strong> {{ usuario.fecha_registro|date:"d/m/Y H:i" }}</p>
+                            <p><strong>Biografía:</strong></p>
+                            <div class="border p-2 bg-light">
+                                {{ usuario.biografia|default:"Sin biografía"|linebreaks }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form method="POST" class="mt-4">
+        {% csrf_token %}
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="submit" class="btn btn-danger btn-lg">
+                <i class="fas fa-trash"></i> Sí, Eliminar Usuario
+            </button>
+            <a href="{% url 'ver_usuarios' %}" class="btn btn-secondary btn-lg">Cancelar</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

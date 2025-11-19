@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Comentarios{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Lista de Comentarios</h2>
+    <a href="{% url 'agregar_comentario' %}" class="btn btn-success mb-3">Agregar Nuevo Comentario</a>
+    
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Video</th>
+                    <th>Contenido</th>
+                    <th>Likes</th>
+                    <th>Respuesta a</th>
+                    <th>Editado</th>
+                    <th>Visible</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comentario in comentarios %}
+                <tr>
+                    <td><strong>{{ comentario.id }}</strong></td>
+                    <td>{{ comentario.usuario.nombre_usuario }}</td>
+                    <td>{{ comentario.video.titulo|truncatechars:30 }}</td>
+                    <td>
+                        <span title="{{ comentario.contenido }}">
+                            {{ comentario.contenido|truncatechars:50 }}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="badge bg-primary">{{ comentario.likes }}</span>
+                    </td>
+                    <td>
+                        {% if comentario.respuesta_a %}
+                            <span class="badge bg-info">Respuesta</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Principal</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if comentario.editado %}
+                            <span class="badge bg-warning">Sí</span>
+                        {% else %}
+                            <span class="badge bg-secondary">No</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if comentario.visible %}
+                            <span class="badge bg-success">Sí</span>
+                        {% else %}
+                            <span class="badge bg-danger">No</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ comentario.fecha_publicacion|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a href="{% url 'actualizar_comentario' comentario.id %}" class="btn btn-warning btn-sm">Editar</a>
+                            <a href="{% url 'borrar_comentario' comentario.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="10" class="text-center py-4">
+                        <div class="text-muted">
+                            <i class="fas fa-comments fa-2x mb-2"></i>
+                            <p>No hay comentarios</p>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <a href="{% url 'inicio_YouTube' %}" class="btn btn-primary">Volver al Inicio</a>
+</div>
+{% endblock %}

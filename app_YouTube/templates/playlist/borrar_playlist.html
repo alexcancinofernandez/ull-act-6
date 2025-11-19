@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-4">
+  <div class="card shadow-sm border-danger">
+    <div class="card-body text-center">
+      <h2 class="text-danger mb-3">⚠️ Confirmar Borrado</h2>
+      <p class="fs-5">
+        ¿Seguro que deseas eliminar la playlist 
+        <strong class="text-dark">"{{ playlist.nombre }}"</strong>?
+      </p>
+
+      <p class="text-muted">Esta acción no se puede deshacer.</p>
+
+      <form method="post" class="d-inline">
+        {% csrf_token %}
+        <button class="btn btn-danger px-4 me-2" type="submit">Sí, borrar</button>
+      </form>
+      <a class="btn btn-secondary px-4" href="{% url 'ver_playlist' %}">Cancelar</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Agregar Usuario{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Agregar Nuevo Usuario</h2>
+    
+    <!-- Mostrar mensajes -->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label class="form-label">Nombre de Usuario: *</label>
+            <input type="text" name="nombre_usuario" class="form-control" required maxlength="100">
+            <div class="form-text">Debe ser único. No puede repetirse.</div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Correo Electrónico: *</label>
+            <input type="email" name="correo" class="form-control" required>
+            <div class="form-text">Debe ser único. No puede repetirse.</div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Contraseña: *</label>
+            <input type="password" name="contraseña" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">País:</label>
+            <input type="text" name="pais" class="form-control" maxlength="50">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Biografía:</label>
+            <textarea name="biografia" class="form-control" rows="4"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Foto de Perfil:</label>
+            <input type="file" name="foto_perfil" class="form-control" accept="image/*">
+        </div>
+
+        <div class="mb-3 form-check">
+            <input type="checkbox" name="es_verificado" class="form-check-input">
+            <label class="form-check-label">Usuario Verificado</label>
+        </div>
+
+        <button type="submit" class="btn btn-success">Guardar Usuario</button>
+        <a href="{% url 'ver_usuarios' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

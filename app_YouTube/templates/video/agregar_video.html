@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}Agregar Video{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h2>🎬 Agregar Video</h2>
+  <form method="post">
+    {% csrf_token %}
+
+    <!-- Título -->
+    <div class="mb-3">
+      <label class="form-label">Título</label>
+      <input type="text" name="titulo" class="form-control" required>
+    </div>
+
+    <!-- Descripción -->
+    <div class="mb-3">
+      <label class="form-label">Descripción</label>
+      <textarea name="descripcion" class="form-control" rows="3" required></textarea>
+    </div>
+
+    <!-- Canal -->
+    <div class="mb-3">
+      <label class="form-label">Canal</label>
+      <select name="canal" class="form-select" required>
+        <option value="">-- Selecciona un canal --</option>
+        {% for canal in canales %}
+          <option value="{{ canal.id }}">{{ canal.nombre }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Duración -->
+    <div class="mb-3">
+      <label class="form-label">Duración (HH:MM:SS)</label>
+      <input type="text" name="duracion" class="form-control" placeholder="Ejemplo: 00:05:30" required>
+    </div>
+
+    <!-- Vistas -->
+    <div class="mb-3">
+      <label class="form-label">Número de vistas</label>
+      <input type="number" name="vistas" class="form-control" min="0" value="0">
+    </div>
+
+    <!-- Público -->
+    <div class="mb-3 form-check">
+      <input type="checkbox" name="publico" class="form-check-input" checked>
+      <label class="form-check-label">¿Es público?</label>
+    </div>
+
+    <!-- URL Miniatura -->
+    <div class="mb-3">
+      <label class="form-label">URL de la miniatura</label>
+      <input type="url" name="url_miniatura" class="form-control" placeholder="https://...">
+    </div>
+
+    <!-- Likes -->
+    <div class="mb-3">
+      <label class="form-label">Likes</label>
+      <input type="number" name="likes" class="form-control" min="0" value="0">
+    </div>
+
+    <button type="submit" class="btn btn-success">Guardar Video</button>
+  </form>
+</div>
+{% endblock %}

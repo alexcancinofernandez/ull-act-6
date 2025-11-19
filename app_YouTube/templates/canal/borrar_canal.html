@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Confirmar borrado</h2>
+<p>¿Deseas eliminar el canal "<strong>{{ canal.nombre }}</strong>"?</p>
+<form method="post">
+  {% csrf_token %}
+  <button class="btn btn-danger" type="submit">Sí, borrar</button>
+  <a class="btn btn-secondary" href="{% url 'ver_canal' %}">No, cancelar</a>
+</form>
+{% endblock %}

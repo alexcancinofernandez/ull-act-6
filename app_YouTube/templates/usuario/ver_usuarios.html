@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Usuarios{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Lista de Usuarios</h2>
+    <a href="{% url 'agregar_usuario' %}" class="btn btn-success mb-3">Agregar Nuevo Usuario</a>
+    
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Correo</th>
+                    <th>País</th>
+                    <th>Biografía</th>
+                    <th>Foto</th>
+                    <th>Verificado</th>
+                    <th>Fecha Registro</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for usuario in usuarios %}
+                <tr>
+                    <td><strong>{{ usuario.id }}</strong></td>
+                    <td>{{ usuario.nombre_usuario }}</td>
+                    <td>{{ usuario.correo }}</td>
+                    <td>{{ usuario.pais|default:"-" }}</td>
+                    <td>
+                        {% if usuario.biografia %}
+                            <span title="{{ usuario.biografia }}">
+                                {{ usuario.biografia|truncatechars:30 }}
+                            </span>
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if usuario.foto_perfil %}
+                            <img src="{{ usuario.foto_perfil.url }}" alt="Foto" style="width: 40px; height: 40px; border-radius: 50%;">
+                        {% else %}
+                            <span class="text-muted">Sin foto</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                      {% if usuario.foto_perfil %}
+                          <img src="{{ usuario.foto_perfil.url }}" alt="Foto de {{ usuario.nombre_usuario }}" 
+                               style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%; border: 2px solid #dee2e6;">
+                      {% else %}
+                          <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center" 
+                               style="width: 50px; height: 50px;">
+                              <i class="fas fa-user text-white"></i>
+                          </div>
+                      {% endif %}
+                  </td>
+                    <td>
+                        {% if usuario.es_verificado %}
+                            <span class="badge bg-success">✓ Verificado</span>
+                        {% else %}
+                            <span class="badge bg-secondary">No verificado</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ usuario.fecha_registro|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a href="{% url 'actualizar_usuario' usuario.id %}" class="btn btn-warning btn-sm">Editar</a>
+                            <a href="{% url 'borrar_usuario' usuario.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="9" class="text-center py-4">
+                        <div class="text-muted">
+                            <i class="fas fa-users fa-2x mb-2"></i>
+                            <p>No hay usuarios registrados</p>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <a href="{% url 'inicio_YouTube' %}" class="btn btn-primary">Volver al Inicio</a>
+</div>
+{% endblock %}

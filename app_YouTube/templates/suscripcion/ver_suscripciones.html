@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Suscripciones{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Lista de Suscripciones</h2>
+    <a href="{% url 'agregar_suscripcion' %}" class="btn btn-success mb-3">Agregar Nueva Suscripción</a>
+    
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Usuario</th>
+                    <th>Canal</th>
+                    <th>Nivel</th>
+                    <th>Notificaciones</th>
+                    <th>Comentarios</th>
+                    <th>Puntos</th>
+                    <th>Activa</th>
+                    <th>Fecha Suscripción</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for suscripcion in suscripciones %}
+                <tr>
+                    <td><strong>{{ suscripcion.id }}</strong></td>
+                    <td>{{ suscripcion.usuario.nombre_usuario }}</td>
+                    <td>{{ suscripcion.canal.nombre }}</td>
+                    <td>
+                        <span class="badge 
+                            {% if suscripcion.nivel_suscripcion == 'VIP' %}bg-danger
+                            {% elif suscripcion.nivel_suscripcion == 'Premium' %}bg-warning
+                            {% else %}bg-secondary{% endif %}">
+                            {{ suscripcion.nivel_suscripcion }}
+                        </span>
+                    </td>
+                    <td>
+                        {% if suscripcion.notificaciones_activadas %}
+                            <span class="badge bg-success">Activadas</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Desactivadas</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if suscripcion.comentarios_habilitados %}
+                            <span class="badge bg-success">Habilitados</span>
+                        {% else %}
+                            <span class="badge bg-secondary">Deshabilitados</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <span class="badge bg-info">{{ suscripcion.puntos_fidelidad }} pts</span>
+                    </td>
+                    <td>
+                        {% if suscripcion.activo %}
+                            <span class="badge bg-success">Activa</span>
+                        {% else %}
+                            <span class="badge bg-danger">Inactiva</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ suscripcion.fecha_suscripcion|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a href="{% url 'actualizar_suscripcion' suscripcion.id %}" class="btn btn-warning btn-sm">Editar</a>
+                            <a href="{% url 'borrar_suscripcion' suscripcion.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="10" class="text-center py-4">
+                        <div class="text-muted">
+                            <i class="fas fa-bell fa-2x mb-2"></i>
+                            <p>No hay suscripciones</p>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <a href="{% url 'inicio_YouTube' %}" class="btn btn-primary">Volver al Inicio</a>
+</div>
+{% endblock %}

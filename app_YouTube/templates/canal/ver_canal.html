@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Listar Canales</h2>
+<table class="table table-striped">
+  <thead><tr><th>#</th><th>Nombre</th><th>País</th><th>Suscriptores</th><th>Acciones</th></tr></thead>
+  <tbody>
+    {% for c in canales %}
+    <tr>
+      <td>{{ c.id }}</td>
+      <td>{{ c.nombre }}</td>
+      <td>{{ c.pais }}</td>
+      <td>{{ c.suscriptores }}</td>
+      <td>
+        <a class="btn btn-sm btn-info" href="{% url 'actualizar_canal' c.id %}">Editar</a>
+        <a class="btn btn-sm btn-danger" href="{% url 'borrar_canal' c.id %}">Borrar</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="5">No hay canales</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

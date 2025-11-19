@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+<h2 class="mb-4">🎵 Lista de Playlists</h2>
+
+<table class="table table-hover align-middle table-bordered shadow-sm">
+  <thead class="table-light">
+    <tr>
+      <th>#</th>
+      <th>Nombre</th>
+      <th>Descripción</th>
+      <th>Canal creador</th>
+      <th>Fecha de creación</th>
+      <th>Pública</th>
+      <th>Videos</th>
+      <th>Número de videos</th>
+      <th>Orden (JSON)</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for p in playlists %}
+    <tr>
+      <td>{{ p.id }}</td>
+      <td><strong>{{ p.nombre }}</strong></td>
+      <td>{{ p.descripcion|truncatechars:60 }}</td>
+      <td>{{ p.canal_creador.nombre }}</td>
+      <td>{{ p.fecha_creacion }}</td>
+      <td class="text-center">
+        {% if p.publica %}
+          <span class="text-success">✅ Sí</span>
+        {% else %}
+          <span class="text-danger">❌ No</span>
+        {% endif %}
+      </td>
+      <td>
+        {% for v in p.videos.all %}
+          🎬 {{ v.titulo }}<br>
+        {% empty %}
+          <em>Sin videos</em>
+        {% endfor %}
+      </td>
+      <td>{{ p.n_videos|default:"-" }}</td>
+      <td>
+        {% if p.orden_videos %}
+          <pre style="white-space: pre-wrap; background:#f8f9fa; border-radius:6px; padding:5px;">{{ p.orden_videos }}</pre>
+        {% else %}
+          <em>Sin orden definido</em>
+        {% endif %}
+      </td>
+      <td>
+        <a class="btn btn-sm btn-info" href="{% url 'actualizar_playlist' p.id %}">✏️ Editar</a>
+        <a class="btn btn-sm btn-danger" href="{% url 'borrar_playlist' p.id %}">🗑️ Borrar</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr>
+      <td colspan="10" class="text-center">
+        <em>No hay playlists registradas</em>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<a href="{% url 'agregar_playlist' %}" class="btn btn-primary mt-3">➕ Agregar nueva Playlist</a>
+
+{% endblock %}

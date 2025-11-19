@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Actualizar Video{% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h2>✏️ Actualizar Video</h2>
+  <form method="post">
+    {% csrf_token %}
+
+    <!-- Título -->
+    <div class="mb-3">
+      <label class="form-label">Título</label>
+      <input type="text" name="titulo" class="form-control" value="{{ video.titulo }}" required>
+    </div>
+
+    <!-- Descripción -->
+    <div class="mb-3">
+      <label class="form-label">Descripción</label>
+      <textarea name="descripcion" class="form-control" rows="3" required>{{ video.descripcion }}</textarea>
+    </div>
+
+    <!-- Canal -->
+    <div class="mb-3">
+      <label class="form-label">Canal</label>
+      <select name="canal" class="form-select" required>
+        {% for canal in canales %}
+          <option value="{{ canal.id }}" {% if canal.id == video.canal.id %}selected{% endif %}>{{ canal.nombre }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <!-- Duración -->
+    <div class="mb-3">
+      <label class="form-label">Duración (HH:MM:SS)</label>
+      <input type="text" name="duracion" class="form-control" value="{{ video.duracion }}" placeholder="Ejemplo: 00:05:30" required>
+    </div>
+
+    <!-- Vistas -->
+    <div class="mb-3">
+      <label class="form-label">Número de vistas</label>
+      <input type="number" name="vistas" class="form-control" min="0" value="{{ video.vistas }}">
+    </div>
+
+    <!-- Público -->
+    <div class="mb-3 form-check">
+      <input type="checkbox" name="publico" class="form-check-input" {% if video.publico %}checked{% endif %}>
+      <label class="form-check-label">¿Es público?</label>
+    </div>
+
+    <!-- URL Miniatura -->
+    <div class="mb-3">
+      <label class="form-label">URL de la miniatura</label>
+      <input type="url" name="url_miniatura" class="form-control" value="{{ video.url_miniatura }}" placeholder="https://...">
+    </div>
+
+    <!-- Likes -->
+    <div class="mb-3">
+      <label class="form-label">Likes</label>
+      <input type="number" name="likes" class="form-control" min="0" value="{{ video.likes }}">
+    </div>
+
+    <button type="submit" class="btn btn-success">Actualizar Video</button>
+  </form>
+</div>
+{% endblock %}

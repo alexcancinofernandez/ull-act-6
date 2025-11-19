@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}Agregar Comentario{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Agregar Nuevo Comentario</h2>
+    
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label class="form-label">Usuario:</label>
+            <select name="usuario" class="form-select" required>
+                <option value="">Seleccionar Usuario</option>
+                {% for usuario in usuarios %}
+                    <option value="{{ usuario.id }}">{{ usuario.nombre_usuario }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Video:</label>
+            <select name="video" class="form-select" required>
+                <option value="">Seleccionar Video</option>
+                {% for video in videos %}
+                    <option value="{{ video.id }}">{{ video.titulo }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Contenido del Comentario:</label>
+            <textarea name="contenido" class="form-control" rows="5" required></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Likes:</label>
+            <input type="number" name="likes" class="form-control" value="0" min="0">
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Respuesta a (opcional):</label>
+            <select name="respuesta_a" class="form-select">
+                <option value="">Ninguno (comentario principal)</option>
+                {% for comentario in comentarios %}
+                    <option value="{{ comentario.id }}">{{ comentario.usuario.nombre_usuario }} - {{ comentario.contenido|truncatechars:50 }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3 form-check">
+            <input type="checkbox" name="editado" class="form-check-input">
+            <label class="form-check-label">Editado</label>
+        </div>
+
+        <div class="mb-3 form-check">
+            <input type="checkbox" name="visible" class="form-check-input" checked>
+            <label class="form-check-label">Visible</label>
+        </div>
+
+        <button type="submit" class="btn btn-success">Guardar Comentario</button>
+        <a href="{% url 'ver_comentarios' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

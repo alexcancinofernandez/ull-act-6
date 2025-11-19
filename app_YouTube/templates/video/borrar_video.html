@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Borrar Video{% endblock %}
+{% block content %}
+<div class="container mt-5">
+  <div class="alert alert-danger text-center shadow-lg">
+    <h3>⚠️ Confirmar eliminación</h3>
+    <p>¿Seguro que deseas borrar el video <strong>"{{ video.titulo }}"</strong> del canal <strong>{{ video.canal.nombre }}</strong>?</p>
+    <form method="POST">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger px-4">🗑️ Borrar</button>
+      <a href="{% url 'ver_video' %}" class="btn btn-secondary px-4">Cancelar</a>
+    </form>
+  </div>
+</div>
+{% endblock %}

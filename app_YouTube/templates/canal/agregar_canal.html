@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Agregar Canal</h2>
+<form method="post">
+  {% csrf_token %}
+  <div class="mb-3"><label>Nombre</label><input class="form-control" name="nombre"></div>
+  <div class="mb-3"><label>Descripción</label><textarea class="form-control" name="descripcion"></textarea></div>
+  <div class="mb-3"><label>Fecha creación</label><input type="date" class="form-control" name="fecha_creacion"></div>
+  <div class="mb-3"><label>Suscriptores</label><input type="number" class="form-control" name="suscriptores"></div>
+  <div class="mb-3"><label>URL personalizada</label><input class="form-control" name="url_personalizada"></div>
+  <div class="mb-3"><label>País</label><input class="form-control" name="pais"></div>
+  <div class="mb-3"><label>Categoría principal</label><input class="form-control" name="categoria_principal"></div>
+  <button class="btn btn-primary" type="submit">Agregar</button>
+</form>
+{% endblock %}

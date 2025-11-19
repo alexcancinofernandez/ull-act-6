@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Agregar Suscripción{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Agregar Nueva Suscripción</h2>
+    
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div class="mb-3">
+            <label class="form-label">Usuario:</label>
+            <select name="usuario" class="form-select" required>
+                <option value="">Seleccionar Usuario</option>
+                {% for usuario in usuarios %}
+                    <option value="{{ usuario.id }}">{{ usuario.nombre_usuario }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Canal:</label>
+            <select name="canal" class="form-select" required>
+                <option value="">Seleccionar Canal</option>
+                {% for canal in canales %}
+                    <option value="{{ canal.id }}">{{ canal.nombre }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Nivel de Suscripción:</label>
+            <select name="nivel_suscripcion" class="form-select" required>
+                <option value="Gratis">Gratis</option>
+                <option value="Premium">Premium</option>
+                <option value="VIP">VIP</option>
+            </select>
+        </div>
+
+        <div class="mb-3 form-check">
+            <input type="checkbox" name="notificaciones_activadas" class="form-check-input" checked>
+            <label class="form-check-label">Notificaciones Activadas</label>
+        </div>
+
+        <div class="mb-3 form-check">
+            <input type="checkbox" name="comentarios_habilitados" class="form-check-input" checked>
+            <label class="form-check-label">Comentarios Habilitados</label>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Puntos de Fidelidad:</label>
+            <input type="number" name="puntos_fidelidad" class="form-control" value="0" min="0">
+        </div>
+
+        <div class="mb-3 form-check">
+            <input type="checkbox" name="activo" class="form-check-input" checked>
+            <label class="form-check-label">Activo</label>
+        </div>
+
+        <button type="submit" class="btn btn-success">Guardar Suscripción</button>
+        <a href="{% url 'ver_suscripciones' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}
